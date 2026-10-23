@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleName</key><string>TrailDrop</string>
+<key>CFBundleDisplayName</key><string>轻舟 TrailDrop</string>
+<key>CFBundleIdentifier</key><string>dev.traildrop.mac</string>
+<key>CFBundleExecutable</key><string>TrailDrop</string>
+<key>CFBundleIconFile</key><string>TrailDrop.icns</string>
+<key>CFBundlePackageType</key><string>APPL</string>
+<key>CFBundleShortVersionString</key><string>0.1.3</string>
+<key>CFBundleVersion</key><string>4</string>
+<key>LSMinimumSystemVersion</key><string>13.0</string>
+<key>NSHighResolutionCapable</key><true/>
+<key>NSRemovableVolumesUsageDescription</key><string>扫描并转存运动相机或读卡器上的视频、照片；仅按用户选择清理源素材。</string>
+<key>NSDocumentsFolderUsageDescription</key><string>保存用户选择转存的运动影像素材。</string>
+</dict></plist>
