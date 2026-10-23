@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">轻舟 TrailDrop 应用图标</title>
+  <desc id="desc">深海绿底色上的浅色船帆与船身，金色船首指向前方。</desc>
+  <rect width="1024" height="1024" rx="230" fill="#07524F"/>
+  <path d="M354 218c-17 0-29 13-29 30v376h359c23 0 35-27 19-44L380 230c-7-8-16-12-26-12Z" fill="#F7F3EA"/>
+  <path d="M390 307v253h231L390 307Z" fill="#2FBAA7"/>
+  <path d="M226 675h575c-34 100-146 167-289 167S260 775 226 675Z" fill="#F7F3EA"/>
+  <path d="M703 675h98c-22 66-82 119-164 146 34-38 56-88 66-146Z" fill="#EFAE50"/>
+  <path d="M272 703h420" fill="none" stroke="#07524F" stroke-width="18" stroke-linecap="round"/>
+</svg>
