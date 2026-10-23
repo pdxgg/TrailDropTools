@@ -1,0 +1,71 @@
+name: Build macOS DMG
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mac-dmg-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: macOS ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            arch: arm64
+          - runner: macos-15-intel
+            arch: x86_64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Core safety and integration tests
+        run: python3 -m unittest discover -s Tests -v
+      - name: Bundle standalone runtime
+        run: |
+          python3 -m pip install 'pyinstaller==6.16.0'
+          python3 -m PyInstaller --noconfirm --clean --onefile --name traildrop-engine --distpath build/runtime --workpath build/pyinstaller --specpath build Core/engine.py
+      - name: Compile and sign app
+        run: bash scripts/build-mac.sh
+      - name: Test bundled engine and app launch
+        run: |
+          python3 scripts/smoke-mac.py
+          build/TrailDrop.app/Contents/MacOS/TrailDrop >build/app-launch.log 2>&1 &
+          TASK_APP_PID=$!
+          sleep 5
+          if ! kill -0 "$TASK_APP_PID" 2>/dev/null; then
+            cat build/app-launch.log
+            exit 1
+          fi
+          kill "$TASK_APP_PID"
+          codesign --verify --deep --strict --verbose=2 build/TrailDrop.app
+      - name: Create and verify DMG
+        env:
+          TASK_ARCH: ${{ matrix.arch }}
+        run: bash scripts/package-dmg.sh
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: TrailDrop-mac-${{ matrix.arch }}
+          path: |
+            build/*.dmg
+            build/*.sha256
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-diagnostics-${{ matrix.arch }}
+          path: build/app-launch.log
+          if-no-files-found: ignore
