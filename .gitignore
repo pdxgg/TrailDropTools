@@ -1,0 +1,7 @@
+build/
+.venv/
+design-system/
+reference/
+__pycache__/
+*.pyc
+.DS_Store
